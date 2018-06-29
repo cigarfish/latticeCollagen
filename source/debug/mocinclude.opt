@@ -1,0 +1,47 @@
+-IC:/QT/QT5.8.0/5.8/MSVC2015_64/mkspecs/win32-msvc2015
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/$(HDF5_PREFIX)/include
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/$(HDF5_PREFIX)/include/cpp
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/$(LIBSBML_PREFIX)/include
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/$(SOSLIB_PREFIX)/include
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/$(SUNDIALS_PREFIX)/include
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/gui
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/tools
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/model/Model
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/model/CellPopulation
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/model/Cell
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/model/BasicDatatypes
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/gui/2DTools
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/images
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/images/filters/imageFilters
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/gui/tabMonolayer
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/gui/tabImageProcessing
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/gui/tabToolsWithItkVtk
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/gui/tabVascularization
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/gui/tabComplexCells
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/gui/GLTools
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/gui/graphTools
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/images/pipelines
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/images/filters/convertFilters
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/images/filters/graphFilters
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/images/tools
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/model/Observation
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/tools/triangulation
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/tools/new_triangulation
+-IC:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/tools/Vascularization
+-IC:/QT/QT5.8.0/5.8/MSVC2015_64/include
+-IC:/QT/QT5.8.0/5.8/MSVC2015_64/include/QtOpenGL
+-IC:/QT/QT5.8.0/5.8/MSVC2015_64/include/QtWidgets
+-IC:/QT/QT5.8.0/5.8/MSVC2015_64/include/QtGui
+-IC:/QT/QT5.8.0/5.8/MSVC2015_64/include/QtANGLE
+-IC:/QT/QT5.8.0/5.8/MSVC2015_64/include/QtConcurrent
+-IC:/QT/QT5.8.0/5.8/MSVC2015_64/include/QtCore
+-IC:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\INCLUDE
+-IC:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\ATLMFC\INCLUDE
+-IC:\Program Files (x86)\Windows Kits\10\include\10.0.15063.0\ucrt
+-IC:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um
+-IC:\Program Files (x86)\Windows Kits\10\include\10.0.15063.0\shared
+-IC:\Program Files (x86)\Windows Kits\10\include\10.0.15063.0\um
+-IC:\Program Files (x86)\Windows Kits\10\include\10.0.15063.0\winrt

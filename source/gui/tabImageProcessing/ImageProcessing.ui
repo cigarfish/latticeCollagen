@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ImageProcessing</class>
+ <widget class="QWidget" name="ImageProcessing">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1679</width>
+    <height>892</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0" rowspan="2">
+    <widget class="QFrame" name="generalOptionsFrame">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QComboBox" name="selectPipelineComboBox">
+        <item>
+         <property name="text">
+          <string>Analyze Cells</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Analyze Hoechst Diffusion</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Analyze Stellate Cells</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Approximate Cell Shape</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Background Elimination</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>CLAHE</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Compare Segmentations</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Convert Object to Mesh</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Crop</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Extract and Analyze Graph</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>HConvex Image Filter</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Object-based Segmentation</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Train Classifier</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Objects to Matrix</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Segment Sinusoids + Bile Canaliculi in 20x Datasets</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Segment Sinusoids + Bile Canaliculi in 60x Datasets</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Segment Nuclei in 20x Datasets</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Segment Nuclei in 60x Datasets</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Segment Nuclei using Hough Transformation</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Segment Stellate Cell Cytoskeleton</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Segment Veins</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Segment Necrotic Region</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Skeletonization</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Test Pipeline</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Visualization</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="startPipelineButton">
+        <property name="text">
+         <string>Start Pipeline</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QProgressBar" name="pipelineProgressBar">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="maximum">
+         <number>0</number>
+        </property>
+        <property name="value">
+         <number>-1</number>
+        </property>
+        <property name="textVisible">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="stopPipelineButton">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Stop Pipeline</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Minimum</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>10</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="JobQueueGroupBox">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="title">
+         <string>Job Queue</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QPushButton" name="startQueuedJobsButton">
+           <property name="text">
+            <string>Start Queued Jobs</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>8</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QTableView" name="jobTableView">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Maximum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="addJobButton">
+           <property name="text">
+            <string>Add Job</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="deleteJobsButton">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>Delete selected jobs</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="loadJobsButton">
+           <property name="text">
+            <string>Load Job File</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QProgressBar" name="jobQueueProgressBar">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="maximum">
+            <number>0</number>
+           </property>
+           <property name="value">
+            <number>-1</number>
+           </property>
+           <property name="textVisible">
+            <bool>false</bool>
+           </property>
+           <property name="invertedAppearance">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+        <zorder>jobQueueProgressBar</zorder>
+        <zorder>jobQueueProgressBar</zorder>
+        <zorder>jobTableView</zorder>
+        <zorder>startQueuedJobsButton</zorder>
+        <zorder>deleteJobsButton</zorder>
+        <zorder>addJobButton</zorder>
+        <zorder>verticalSpacer_3</zorder>
+        <zorder>loadJobsButton</zorder>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="1" rowspan="2">
+    <widget class="QFrame" name="pipelineEditorFrame">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_16">
+      <item>
+       <widget class="QTreeView" name="pipelineEditorTreeView">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="seedPointSelectionPushButton">
+        <property name="text">
+         <string>Seed Point Selection</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>startPipelineButton</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

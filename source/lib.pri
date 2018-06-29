@@ -1,0 +1,4 @@
+
+DESTDIR = ../lib
+
+CONFIG += staticlib

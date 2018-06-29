@@ -1,0 +1,96 @@
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (x64\Release\) contains files shared from another project (CellSysUI.vcxproj, CSGUI.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(936,5): warning MSB8027: Two or more files with the name of Mathematix.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are tools\new_triangulation\LinearAlgebra\Mathematix.cpp, tools\triangulation\Mathematix.cpp.
+  ModelCellsSpherical.cpp
+.\GeneratedFiles\Release\../../model/Model/CSModel.h(85): warning C4138: '*/' found outside of comment
+c:\users\zhaoj\learning\projects\virtual liver\code\cellsys7\project\liver\testnetwork\source\model\basicdatatypes\vector_detail.h(300): warning C4814: 'BaseVector<Derived,T,N>::Reset': in C++14 'constexpr' will not imply 'const'; consider explicitly specifying 'const'
+  c:\users\zhaoj\learning\projects\virtual liver\code\cellsys7\project\liver\testnetwork\source\model\basicdatatypes\vector_detail.h(338): note: see reference to class template instantiation 'BaseVector<Derived,T,N>' being compiled
+c:\users\zhaoj\learning\projects\virtual liver\code\cellsys7\project\liver\testnetwork\source\model\basicdatatypes\Matrix.h(291): warning C4814: 'BasicDatatypes::MatrixBase<Derived,T,N,M>::Reset': in C++14 'constexpr' will not imply 'const'; consider explicitly specifying 'const'
+  c:\users\zhaoj\learning\projects\virtual liver\code\cellsys7\project\liver\testnetwork\source\model\basicdatatypes\Matrix.h(341): note: see reference to class template instantiation 'BasicDatatypes::MatrixBase<Derived,T,N,M>' being compiled
+c:\users\zhaoj\learning\projects\virtual liver\code\cellsys7\project\liver\testnetwork\source\model\basicdatatypes\vector_detail.h(300): warning C4814: 'BaseVector<VectorClass<double,3>,T,3>::Reset': in C++14 'constexpr' will not imply 'const'; consider explicitly specifying 'const'
+          with
+          [
+              T=double
+          ]
+  c:\users\zhaoj\learning\projects\virtual liver\code\cellsys7\project\liver\testnetwork\source\model\basicdatatypes\vector_detail.h(497): note: see reference to class template instantiation 'BaseVector<VectorClass<double,3>,T,3>' being compiled
+          with
+          [
+              T=double
+          ]
+  c:\users\zhaoj\learning\projects\virtual liver\code\cellsys7\project\liver\testnetwork\source\model\cell\Cell.h(82): note: see reference to class template instantiation 'VectorClass<double,3>' being compiled
+c:\users\zhaoj\learning\projects\virtual liver\code\cellsys7\project\liver\testnetwork\source\model\basicdatatypes\vector_detail.h(300): warning C4814: 'BaseVector<VectorClass<double,2>,T,2>::Reset': in C++14 'constexpr' will not imply 'const'; consider explicitly specifying 'const'
+          with
+          [
+              T=double
+          ]
+  c:\users\zhaoj\learning\projects\virtual liver\code\cellsys7\project\liver\testnetwork\source\model\basicdatatypes\vector_detail.h(419): note: see reference to class template instantiation 'BaseVector<VectorClass<double,2>,T,2>' being compiled
+          with
+          [
+              T=double
+          ]
+  c:\users\zhaoj\learning\projects\virtual liver\code\cellsys7\project\liver\testnetwork\source\model\basicdatatypes\vector_detail.h(618): note: see reference to class template instantiation 'VectorClass<double,2>' being compiled
+c:\users\zhaoj\learning\projects\virtual liver\code\cellsys7\project\liver\testnetwork\source\model\basicdatatypes\Matrix.h(291): warning C4814: 'BasicDatatypes::MatrixBase<BasicDatatypes::Matrix<double,3,3>,T,3,3>::Reset': in C++14 'constexpr' will not imply 'const'; consider explicitly specifying 'const'
+          with
+          [
+              T=double
+          ]
+  c:\users\zhaoj\learning\projects\virtual liver\code\cellsys7\project\liver\testnetwork\source\model\basicdatatypes\Matrix.h(449): note: see reference to class template instantiation 'BasicDatatypes::MatrixBase<BasicDatatypes::Matrix<double,3,3>,T,3,3>' being compiled
+          with
+          [
+              T=double
+          ]
+  c:\users\zhaoj\learning\projects\virtual liver\code\cellsys7\project\liver\testnetwork\source\model\elements\ModelElement.h(201): note: see reference to class template instantiation 'BasicDatatypes::Matrix<double,3,3>' being compiled
+c:\users\zhaoj\learning\projects\virtual liver\code\cellsys7\project\liver\testnetwork\source\model\model\modelcellsspherical\../BiologyLink.h(43): warning C4068: unknown pragma
+.\GeneratedFiles\../tools/math/delaunay.h(278): warning C4100: 'a': unreferenced formal parameter
+c:\users\zhaoj\learning\projects\virtual liver\code\cellsys7\project\liver\testnetwork\source\model\lattice\ModelElementFibre.h(30): warning C4099: 'ModelElementFibre': type name first seen using 'class' now seen using 'struct'
+  c:\users\zhaoj\learning\projects\virtual liver\code\cellsys7\project\liver\testnetwork\source\model\lattice\ModelElementFibre.h(30): note: see declaration of 'ModelElementFibre'
+.\model/Lattice/ModelElementLatticeNode.h(31): warning C4099: 'ModelElementLatticeNode': type name first seen using 'class' now seen using 'struct'
+  .\model/Lattice/ModelElementLatticeNode.h(31): note: see declaration of 'ModelElementLatticeNode'
+.\model/Lattice/ModelLattice.h(34): warning C4099: 'ModelElementLatticeNode': type name first seen using 'struct' now seen using 'class'
+  .\model/Lattice/ModelElementLatticeNode.h(31): note: see declaration of 'ModelElementLatticeNode'
+.\model/Lattice/ModelLattice.h(35): warning C4099: 'ModelElementFibre': type name first seen using 'struct' now seen using 'class'
+  c:\users\zhaoj\learning\projects\virtual liver\code\cellsys7\project\liver\testnetwork\source\model\lattice\ModelElementFibre.h(30): note: see declaration of 'ModelElementFibre'
+.\GeneratedFiles\Release\../../model/Model/ModelCellsSpherical/ModelCellsSpherical.h(635): warning C4189: 'distance': local variable is initialized but not referenced
+.\GeneratedFiles\Release\../../model/Model/ModelCellsSpherical/ModelCellsSpherical.h(733): warning C4267: '=': conversion from 'size_t' to 'unsigned long', possible loss of data
+.\tools/model/CSModelTools.h(179): warning C4100: 'type': unreferenced formal parameter
+.\tools/model/CSModelTools.h(544): warning C4100: 'AB_dist': unreferenced formal parameter
+.\tools/model/CSModelTools.h(553): warning C4100: 'AB_dist': unreferenced formal parameter
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(299): warning C4068: unknown pragma
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(369): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(782): warning C4189: 'triggerProliferation': local variable is initialized but not referenced
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(1268): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(1353): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(1373): warning C4189: 'displace': local variable is initialized but not referenced
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(1479): warning C4100: 'visible': unreferenced formal parameter
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(1479): warning C4100: 'epsilon': unreferenced formal parameter
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(1479): warning C4100: 'a': unreferenced formal parameter
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(1479): warning C4100: 'b': unreferenced formal parameter
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(1479): warning C4100: 'g': unreferenced formal parameter
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(1479): warning C4100: 'r': unreferenced formal parameter
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(1479): warning C4100: 'height': unreferenced formal parameter
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(1479): warning C4100: 'radius': unreferenced formal parameter
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(1490): warning C4100: 'visible': unreferenced formal parameter
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(1490): warning C4100: 'epsilon': unreferenced formal parameter
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(1490): warning C4100: 'a': unreferenced formal parameter
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(1490): warning C4100: 'b': unreferenced formal parameter
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(1490): warning C4100: 'g': unreferenced formal parameter
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(1490): warning C4100: 'r': unreferenced formal parameter
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(1568): warning C4267: '=': conversion from 'size_t' to 'unsigned long', possible loss of data
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(1588): warning C4267: '+=': conversion from 'size_t' to 'unsigned long', possible loss of data
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(2988): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned int', possible loss of data
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(2890): warning C4100: 'createInitialConditions': unreferenced formal parameter
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(3551): warning C4018: '<': signed/unsigned mismatch
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(3611): warning C4018: '<': signed/unsigned mismatch
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(4107): warning C4305: 'argument': truncation from 'double' to 'float'
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(4124): warning C4305: 'argument': truncation from 'double' to 'float'
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(4146): warning C4305: 'argument': truncation from 'double' to 'float'
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(4163): warning C4305: 'argument': truncation from 'double' to 'float'
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(4236): warning C4305: 'argument': truncation from 'double' to 'float'
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(4245): warning C4305: 'argument': truncation from 'double' to 'float'
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(4264): warning C4305: 'argument': truncation from 'double' to 'float'
+model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp(4277): warning C4305: 'argument': truncation from 'double' to 'float'
+x64\Release\Mathematix.obj : warning LNK4042: object specified more than once; extras ignored
+ModelVascularization.obj : warning LNK4006: "class VoronoiDiagram * __cdecl createVoronoiTesselation(class VesselGraph *,float)" (?createVoronoiTesselation@@YAPEAVVoronoiDiagram@@PEAVVesselGraph@@M@Z) already defined in Model_Vascularization_No.obj; second definition ignored
+ModelVascularization.obj : warning LNK4006: "class VoronoiDiagram * __cdecl createVoronoiTesselationHexagonal(class VesselGraph *,float)" (?createVoronoiTesselationHexagonal@@YAPEAVVoronoiDiagram@@PEAVVesselGraph@@M@Z) already defined in Model_Vascularization_No.obj; second definition ignored
+ModelVascularization.obj : warning LNK4006: "__int64 __cdecl mytime(__int64 *)" (?mytime@@YA_JPEA_J@Z) already defined in Model_Vascularization_No.obj; second definition ignored
+ModelVascularization.obj : warning LNK4006: "void __cdecl readBinaryAndExportToPovray(char *,class VesselGraph * &,double * * * &,class VoronoiDiagram * &)" (?readBinaryAndExportToPovray@@YAXPEADAEAPEAVVesselGraph@@AEAPEAPEAPEANAEAPEAVVoronoiDiagram@@@Z) already defined in Model_Vascularization_No.obj; second definition ignored
+  CSCore.vcxproj -> C:\Users\zhaoj\Learning\Projects\Virtual Liver\Code\CellSys7\Project\Liver\testNetwork\source\..\lib\CSCore.lib

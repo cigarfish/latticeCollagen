@@ -1,0 +1,413 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{5757B53D-1142-3AE8-AE26-B7C952A9AB89}</ProjectGuid>
+    <RootNamespace>CSCore</RootNamespace>
+    <Keyword>Qt4VSv1.0</Keyword>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <PlatformToolSet>v140</PlatformToolSet>
+    <OutputDirectory>..\lib\</OutputDirectory>
+    <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
+    <CharacterSet>NotSet</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <IntermediateDirectory>release\</IntermediateDirectory>
+    <PrimaryOutput>CSCore</PrimaryOutput>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <PlatformToolSet>v140</PlatformToolSet>
+    <OutputDirectory>..\lib\</OutputDirectory>
+    <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
+    <CharacterSet>NotSet</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <IntermediateDirectory>debug\</IntermediateDirectory>
+    <PrimaryOutput>CSCore</PrimaryOutput>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <PropertyGroup Condition="'$(QtMsBuild)'=='' or !Exists('$(QtMsBuild)\qt.targets')">
+    <QtMsBuild>$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
+  </PropertyGroup>
+  <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
+    <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
+  </Target>
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.props')">
+    <Import Project="$(QtMsBuild)\qt.props" />
+  </ImportGroup>
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\lib\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CSCore</TargetName>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</IgnoreImportLibrary>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\lib\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CSCore</TargetName>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</IgnoreImportLibrary>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;$(HDF5_PREFIX)\include;$(HDF5_PREFIX)\include\cpp;$(LIBSBML_PREFIX)\include;$(SOSLIB_PREFIX)\include;$(SUNDIALS_PREFIX)\include;tools;tools\triangulation;tools\new_triangulation;tools\new_triangulation\Geometry;tools\new_triangulation\IO;tools\new_triangulation\LinearAlgebra;tools\new_triangulation\MonteCarlo;tools/Vascularization;tools\math;tools\discvor;tools\sort;tools\dataIO;tools\dataIO\xml;tools\dataIO\hdf5;tools\dataIO\vtp;tools\batchJob;model;model\Model;model\Model\ModelCellsTriangulated;model\Model\ModelCellsSpherical;model/Model/ModelVacularization;model\Elements;model\Interactions;model\CellPopulation;model\Cell;model\BasicDatatypes;model\Observation;model\Vascularization_No;model\Lattice;gui;gui\GLTools;gui/graphTools;$(QTDIR)\include;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtConcurrent;$(QTDIR)\include\QtCore;release;$(QTDIR)\mkspecs\win32-msvc2015;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zc:strictStrings -Zc:throwingNew /bigobj -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
+      <AssemblerListingLocation>release\</AssemblerListingLocation>
+      <BrowseInformation>false</BrowseInformation>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <DisableSpecificWarnings>4577;4467;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <Optimization>MaxSpeed</Optimization>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;WIN64;__BUILD_WINDOWS__;QT_NO_DEBUG;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CONCURRENT_LIB;QT_CORE_LIB;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <WarningLevel>Level3</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)\CSCore.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+    <Midl>
+      <DefaultCharType>Unsigned</DefaultCharType>
+      <EnableErrorChecks>None</EnableErrorChecks>
+      <WarningLevel>0</WarningLevel>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;WIN64;__BUILD_WINDOWS__;QT_NO_DEBUG;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CONCURRENT_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <QtMoc>
+      <QTDIR>$(QTDIR)</QTDIR>
+      <InputFile>%(FullPath)</InputFile>
+      <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
+      <IncludePath>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;C:/QT/QT5.8.0/5.8/MSVC2015_64/mkspecs/win32-msvc2015;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/$(HDF5_PREFIX)/include;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/$(HDF5_PREFIX)/include/cpp;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/$(LIBSBML_PREFIX)/include;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/$(SOSLIB_PREFIX)/include;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/$(SUNDIALS_PREFIX)/include;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/gui;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/tools;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/model/Model;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/model/CellPopulation;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/model/Cell;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/model/BasicDatatypes;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/gui/2DTools;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/images;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/images/filters/imageFilters;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/gui/tabMonolayer;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/gui/tabImageProcessing;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/gui/tabToolsWithItkVtk;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/gui/tabVascularization;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/gui/tabComplexCells;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/gui/GLTools;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/gui/graphTools;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/images/pipelines;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/images/filters/convertFilters;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/images/filters/graphFilters;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/images/tools;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/model/Observation;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/tools/triangulation;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/tools/new_triangulation;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/tools/Vascularization;C:/QT/QT5.8.0/5.8/MSVC2015_64/include;C:/QT/QT5.8.0/5.8/MSVC2015_64/include/QtOpenGL;C:/QT/QT5.8.0/5.8/MSVC2015_64/include/QtWidgets;C:/QT/QT5.8.0/5.8/MSVC2015_64/include/QtGui;C:/QT/QT5.8.0/5.8/MSVC2015_64/include/QtANGLE;C:/QT/QT5.8.0/5.8/MSVC2015_64/include/QtConcurrent;C:/QT/QT5.8.0/5.8/MSVC2015_64/include/QtCore;C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\INCLUDE;C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\ATLMFC\INCLUDE;C:\Program Files (x86)\Windows Kits\10\include\10.0.15063.0\ucrt;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.15063.0\shared;C:\Program Files (x86)\Windows Kits\10\include\10.0.15063.0\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.15063.0\winrt</IncludePath>
+      <Define>UNICODE;WIN32;WIN64;__BUILD_WINDOWS__;QT_NO_DEBUG;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CONCURRENT_LIB;QT_CORE_LIB</Define>
+      <CompilerFlavor>msvc</CompilerFlavor>
+      <Include>$(Configuration)/moc_predefs.h</Include>
+      <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
+      <DynamicSource>output</DynamicSource>
+    </QtMoc>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;$(HDF5_PREFIX)\include;$(HDF5_PREFIX)\include\cpp;$(LIBSBML_PREFIX)\include;$(SOSLIB_PREFIX)\include;$(SUNDIALS_PREFIX)\include;tools;tools\triangulation;tools\new_triangulation;tools\new_triangulation\Geometry;tools\new_triangulation\IO;tools\new_triangulation\LinearAlgebra;tools\new_triangulation\MonteCarlo;tools/Vascularization;tools\math;tools\discvor;tools\sort;tools\dataIO;tools\dataIO\xml;tools\dataIO\hdf5;tools\dataIO\vtp;tools\batchJob;model;model\Model;model\Model\ModelCellsTriangulated;model\Model\ModelCellsSpherical;model/Model/ModelVacularization;model\Elements;model\Interactions;model\CellPopulation;model\Cell;model\BasicDatatypes;model\Observation;model\Vascularization_No;model\Lattice;gui;gui\GLTools;gui/graphTools;$(QTDIR)\include;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtConcurrent;$(QTDIR)\include\QtCore;debug;$(QTDIR)\mkspecs\win32-msvc2015;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zc:strictStrings -Zc:throwingNew /bigobj -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
+      <AssemblerListingLocation>debug\</AssemblerListingLocation>
+      <BrowseInformation>false</BrowseInformation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4577;4467;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;WIN64;__BUILD_WINDOWS__;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CONCURRENT_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <WarningLevel>Level3</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)\CSCore.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+    <Midl>
+      <DefaultCharType>Unsigned</DefaultCharType>
+      <EnableErrorChecks>None</EnableErrorChecks>
+      <WarningLevel>0</WarningLevel>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;WIN64;__BUILD_WINDOWS__;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CONCURRENT_LIB;QT_CORE_LIB;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <QtMoc>
+      <QTDIR>$(QTDIR)</QTDIR>
+      <InputFile>%(FullPath)</InputFile>
+      <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
+      <IncludePath>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;C:/QT/QT5.8.0/5.8/MSVC2015_64/mkspecs/win32-msvc2015;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/$(HDF5_PREFIX)/include;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/$(HDF5_PREFIX)/include/cpp;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/$(LIBSBML_PREFIX)/include;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/$(SOSLIB_PREFIX)/include;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/$(SUNDIALS_PREFIX)/include;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/gui;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/tools;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/model/Model;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/model/CellPopulation;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/model/Cell;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/model/BasicDatatypes;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/gui/2DTools;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/images;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/images/filters/imageFilters;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/gui/tabMonolayer;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/gui/tabImageProcessing;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/gui/tabToolsWithItkVtk;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/gui/tabVascularization;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/gui/tabComplexCells;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/gui/GLTools;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/gui/graphTools;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/images/pipelines;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/images/filters/convertFilters;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/images/filters/graphFilters;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/images/tools;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/model/Observation;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/tools/triangulation;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/tools/new_triangulation;C:/Users/zhaoj/Learning/Projects/Virtual Liver/Code/CellSys7/Project/Liver/testNetwork/source/tools/Vascularization;C:/QT/QT5.8.0/5.8/MSVC2015_64/include;C:/QT/QT5.8.0/5.8/MSVC2015_64/include/QtOpenGL;C:/QT/QT5.8.0/5.8/MSVC2015_64/include/QtWidgets;C:/QT/QT5.8.0/5.8/MSVC2015_64/include/QtGui;C:/QT/QT5.8.0/5.8/MSVC2015_64/include/QtANGLE;C:/QT/QT5.8.0/5.8/MSVC2015_64/include/QtConcurrent;C:/QT/QT5.8.0/5.8/MSVC2015_64/include/QtCore;C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\INCLUDE;C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\ATLMFC\INCLUDE;C:\Program Files (x86)\Windows Kits\10\include\10.0.15063.0\ucrt;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.15063.0\shared;C:\Program Files (x86)\Windows Kits\10\include\10.0.15063.0\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.15063.0\winrt</IncludePath>
+      <Define>UNICODE;WIN32;WIN64;__BUILD_WINDOWS__;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CONCURRENT_LIB;QT_CORE_LIB</Define>
+      <CompilerFlavor>msvc</CompilerFlavor>
+      <Include>$(Configuration)/moc_predefs.h</Include>
+      <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
+      <DynamicSource>output</DynamicSource>
+    </QtMoc>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="tools\new_triangulation\MonteCarlo\Agent.cpp" />
+    <ClCompile Include="model\Model\BiologyLink.cpp" />
+    <ClCompile Include="tools\model\BoundingBoxList.cpp" />
+    <ClCompile Include="tools\batchJob\CSBatchJob.cpp" />
+    <ClCompile Include="tools\dataIO\CSDataReader.cpp" />
+    <ClCompile Include="tools\dataIO\CSDataWriter.cpp" />
+    <ClCompile Include="gui\CSGLArena.cpp" />
+    <ClCompile Include="gui\GLTools\CSGLBar.cpp" />
+    <ClCompile Include="gui\CSGLObject.cpp" />
+    <ClCompile Include="gui\GLTools\CSGLSphere.cpp" />
+    <ClCompile Include="gui\GLTools\CSGLTriangle.cpp" />
+    <ClCompile Include="gui\GLTools\CSGLVascularization.cpp" />
+    <ClCompile Include="tools\dataIO\hdf5\CSHDF5Reader.cpp" />
+    <ClCompile Include="tools\dataIO\hdf5\CSHDF5Writer.cpp" />
+    <ClCompile Include="model\Interactions\CSInteractionFrictionMatrix.cpp" />
+    <ClCompile Include="model\Interactions\CSInteractionHertz.cpp" />
+    <ClCompile Include="model\Interactions\CSInteractionJKR.cpp" />
+    <ClCompile Include="model\Model\CSModel.cpp" />
+    <ClCompile Include="tools\parameters\CSParameter.cpp" />
+    <ClCompile Include="tools\parameters\CSParameterChoice.cpp" />
+    <ClCompile Include="tools\parameters\CSParameterContext.cpp" />
+    <ClCompile Include="tools\parameters\CSParameterContextTemporary.cpp" />
+    <ClCompile Include="tools\parameters\CSParameterTemporary.cpp" />
+    <ClCompile Include="tools\model\CSSpaceDiscretization.cpp" />
+    <ClCompile Include="tools\dataIO\vtp\CSVTPWriter.cpp" />
+    <ClCompile Include="model\Model\ModelVascularization\CSVesselGraph.cpp" />
+    <ClCompile Include="tools\dataIO\xml\CSXMLReader.cpp" />
+    <ClCompile Include="tools\dataIO\xml\CSXMLWriter.cpp" />
+    <ClCompile Include="model\Cell\Cell.cpp" />
+    <ClCompile Include="model\CellPopulation\CellPopulation.cpp" />
+    <ClCompile Include="model\Cell\CellSpherical.cpp" />
+    <ClCompile Include="model\Cell\CellSphericalODE.cpp" />
+    <ClCompile Include="model\Cell\CellSphericalPolar.cpp" />
+    <ClCompile Include="model\Cell\CellTriangulated.cpp" />
+    <ClCompile Include="tools\colors\ColorTools.cpp" />
+    <ClCompile Include="Core.cpp" />
+    <ClCompile Include="tools\new_triangulation\Geometry\DataVertex.cpp" />
+    <ClCompile Include="tools\new_triangulation\IO\EPS.cpp" />
+    <ClCompile Include="tools\input\FilenameParser.cpp" />
+    <ClCompile Include="tools\new_triangulation\LinearAlgebra\Finiteelements.cpp" />
+    <ClCompile Include="model\Lattice\Function.cpp" />
+    <ClCompile Include="model\BasicDatatypes\Graph.cpp" />
+    <ClCompile Include="model\BasicDatatypes\GraphSphere.cpp" />
+    <ClCompile Include="model\Lattice\LatticeSpring.cpp" />
+    <ClCompile Include="model\Lattice\LinearFunction.cpp" />
+    <ClCompile Include="model\Lattice\LinearSpring.cpp" />
+    <ClCompile Include="model\Model\ModelCellsSpherical\LobuleLesionVoxelization.cpp" />
+    <ClCompile Include="model\BasicDatatypes\MassPoint.cpp" />
+    <ClCompile Include="tools\new_triangulation\LinearAlgebra\Mathematix.cpp" />
+    <ClCompile Include="tools\triangulation\Mathematix.cpp" />
+    <ClCompile Include="model\Model\ModelCellsTriangulated\Model3D.cpp" />
+    <ClCompile Include="model\Model\ModelCellsSpherical\ModelCellsSpherical.cpp" />
+    <ClCompile Include="model\Model\ModelCellsSphericalODE\ModelCellsSphericalODE.cpp" />
+    <ClCompile Include="model\Elements\ModelElement.cpp" />
+    <ClCompile Include="model\Elements\ModelElementBarrierTriangle.cpp" />
+    <ClCompile Include="model\Elements\ModelElementECMSphere.cpp" />
+    <ClCompile Include="model\Lattice\ModelElementFibre.cpp" />
+    <ClCompile Include="model\Elements\ModelElementHollowSphere.cpp" />
+    <ClCompile Include="model\Lattice\ModelElementLatticeNode.cpp" />
+    <ClCompile Include="model\Elements\ModelElementSphere.cpp" />
+    <ClCompile Include="model\Elements\ModelElementTriangulated.cpp" />
+    <ClCompile Include="model\Elements\ModelElementVesselSphere.cpp" />
+    <ClCompile Include="model\Elements\ModelElement_VesselGraph.cpp" />
+    <ClCompile Include="model\Lattice\ModelLattice.cpp" />
+    <ClCompile Include="model\Model\ModelVascularization\ModelVascularization.cpp" />
+    <ClCompile Include="model\Vascularization_No\Model_Vascularization_No.cpp" />
+    <ClCompile Include="model\Lattice\NonLinearStiffeningFunction.cpp" />
+    <ClCompile Include="model\Observation\Observation.cpp" />
+    <ClCompile Include="tools\output\OutputText.cpp" />
+    <ClCompile Include="tools\new_triangulation\IO\Povray.cpp" />
+    <ClCompile Include="tools\new_triangulation\MonteCarlo\Process.cpp" />
+    <ClCompile Include="gui\QCSParameterDelegate.cpp" />
+    <ClCompile Include="tools\random\Random.cpp" />
+    <ClCompile Include="model\Lattice\RotationalSpring.cpp" />
+    <ClCompile Include="tools\new_triangulation\MonteCarlo\RuleBasedAgent.cpp" />
+    <ClCompile Include="model\Lattice\SimulationObject.cpp" />
+    <ClCompile Include="model\BasicDatatypes\Spring.cpp" />
+    <ClCompile Include="tools\Tools.cpp" />
+    <ClCompile Include="gui\GLTools\TriangulatedCell.cpp" />
+    <ClCompile Include="tools\triangulation\Triangulation.cpp" />
+    <ClCompile Include="model\Model\ModelVascularization\Tumor.cpp" />
+    <ClCompile Include="model\BasicDatatypes\Utils.cpp" />
+    <ClCompile Include="model\BasicDatatypes\Vector.cpp" />
+    <ClCompile Include="model\Model\ModelVascularization\VesselGraph.cpp" />
+    <ClCompile Include="tools\math\delaunay.cpp" />
+    <ClCompile Include="tools\discvor\discvor.cpp" />
+    <ClCompile Include="tools\math\mathematics.cpp" />
+    <ClCompile Include="tools\sort\sort.cpp" />
+    <ClCompile Include="tools\new_triangulation\IO\tinystr.cpp" />
+    <ClCompile Include="tools\new_triangulation\IO\tinyxml.cpp" />
+    <ClCompile Include="tools\new_triangulation\IO\tinyxmlerror.cpp" />
+    <ClCompile Include="tools\new_triangulation\IO\tinyxmlparser.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="tools\new_triangulation\MonteCarlo\Agent.hpp" />
+    <ClInclude Include="tools\new_triangulation\MonteCarlo\Agent.ipp" />
+    <ClInclude Include="model\Model\BiologyLink.h" />
+    <ClInclude Include="model\BasicDatatypes\BoundingBox.h" />
+    <ClInclude Include="tools\model\BoundingBoxList.h" />
+    <ClInclude Include="tools\batchJob\CSBatchJob.h" />
+    <ClInclude Include="tools\dataIO\CSDataReader.h" />
+    <ClInclude Include="tools\dataIO\CSDataWriter.h" />
+    <ClInclude Include="gui\CSGLArena.h" />
+    <ClInclude Include="gui\GLTools\CSGLBar.h" />
+    <ClInclude Include="gui\CSGLObject.h" />
+    <ClInclude Include="gui\GLTools\CSGLSphere.h" />
+    <ClInclude Include="gui\GLTools\CSGLTriangle.h" />
+    <ClInclude Include="gui\GLTools\CSGLVascularization.h" />
+    <ClInclude Include="tools\dataIO\hdf5\CSHDF5Reader.h" />
+    <ClInclude Include="tools\dataIO\hdf5\CSHDF5Writer.h" />
+    <ClInclude Include="model\Interactions\CSInteraction.h" />
+    <ClInclude Include="model\Interactions\CSInteractionFrictionMatrix.h" />
+    <ClInclude Include="model\Interactions\CSInteractionHertz.h" />
+    <ClInclude Include="model\Interactions\CSInteractionJKR.h" />
+    <ClInclude Include="model\BasicDatatypes\CSListContainer.h" />
+    <ClInclude Include="model\Model\CSModel.h" />
+    <ClInclude Include="tools\model\CSModelTools.h" />
+    <ClInclude Include="tools\parameters\CSParameter.h" />
+    <ClInclude Include="tools\parameters\CSParameterChoice.h" />
+    <ClInclude Include="tools\parameters\CSParameterContext.h" />
+    <ClInclude Include="tools\parameters\CSParameterContextTemporary.h" />
+    <ClInclude Include="tools\parameters\CSParameterTemporary.h" />
+    <ClInclude Include="tools\parameters\CSParameterTreeItem.h" />
+    <ClInclude Include="tools\model\CSSpaceDiscretization.h" />
+    <ClInclude Include="tools\dataIO\vtp\CSVTPWriter.h" />
+    <ClInclude Include="model\Model\ModelVascularization\CSVesselGraph.h" />
+    <ClInclude Include="tools\dataIO\xml\CSXMLReader.h" />
+    <ClInclude Include="tools\dataIO\xml\CSXMLWriter.h" />
+    <ClInclude Include="model\Cell\Cell.h" />
+    <ClInclude Include="model\CellPopulation\CellPopulation.h" />
+    <ClInclude Include="model\Cell\CellSpherical.h" />
+    <ClInclude Include="model\Cell\CellSphericalODE.h" />
+    <ClInclude Include="model\Cell\CellSphericalPolar.h" />
+    <ClInclude Include="model\Cell\CellTriangulated.h" />
+    <ClInclude Include="model\Model\ModelVascularization\Cells.hpp" />
+    <ClInclude Include="model\BasicDatatypes\Color.h" />
+    <ClInclude Include="tools\colors\ColorTools.h" />
+    <ClInclude Include="Core.h" />
+    <ClInclude Include="tools\new_triangulation\IO\EPS.hpp" />
+    <ClInclude Include="tools\new_triangulation\IO\EPS.ipp" />
+    <ClInclude Include="tools\input\FilenameParser.h" />
+    <ClInclude Include="model\Lattice\Function.h" />
+    <ClInclude Include="tools\new_triangulation\Geometry.hpp" />
+    <ClInclude Include="model\BasicDatatypes\Graph.h" />
+    <ClInclude Include="model\BasicDatatypes\GraphSphere.h" />
+    <ClInclude Include="tools\new_triangulation\IO.hpp" />
+    <ClInclude Include="model\Lattice\LatticeSpring.h" />
+    <ClInclude Include="tools\new_triangulation\LinearAlgebra.hpp" />
+    <ClInclude Include="model\Lattice\LinearFunction.h" />
+    <ClInclude Include="model\Lattice\LinearSpring.h" />
+    <ClInclude Include="model\Model\ModelCellsSpherical\LobuleLesionVoxelization.h" />
+    <ClInclude Include="model\BasicDatatypes\MassPoint.h" />
+    <ClInclude Include="tools\triangulation\Mathematix.h" />
+    <ClInclude Include="tools\triangulation\Mathematix.tcc" />
+    <ClInclude Include="model\Model\ModelCellsTriangulated\Model3D.h" />
+    <ClInclude Include="model\Model\ModelCellsSpherical\ModelCellsSpherical.h" />
+    <ClInclude Include="model\Model\ModelCellsSphericalODE\ModelCellsSphericalODE.h" />
+    <ClInclude Include="model\Elements\ModelElement.h" />
+    <ClInclude Include="model\Elements\ModelElementBarrierTriangle.h" />
+    <ClInclude Include="model\Elements\ModelElementECMSphere.h" />
+    <ClInclude Include="model\Lattice\ModelElementFibre.h" />
+    <ClInclude Include="model\Elements\ModelElementHollowSphere.h" />
+    <ClInclude Include="model\Lattice\ModelElementLatticeNode.h" />
+    <ClInclude Include="model\Elements\ModelElementSphere.h" />
+    <ClInclude Include="model\Elements\ModelElementTriangulated.h" />
+    <ClInclude Include="model\Elements\ModelElementVesselSphere.h" />
+    <ClInclude Include="model\Elements\ModelElement_VesselGraph.h" />
+    <ClInclude Include="model\Lattice\ModelLattice.h" />
+    <ClInclude Include="model\Model\ModelVascularization\ModelVascularization.h" />
+    <ClInclude Include="model\Vascularization_No\Model_Vascularization_No.h" />
+    <ClInclude Include="model\Model\Models.h" />
+    <ClInclude Include="tools\new_triangulation\MonteCarlo.hpp" />
+    <ClInclude Include="model\Lattice\NonLinearStiffeningFunction.h" />
+    <ClInclude Include="model\Observation\Observation.h" />
+    <ClInclude Include="tools\output\OutputText.h" />
+    <ClInclude Include="model\Model\ModelVascularization\Perfusion.cpp" />
+    <ClInclude Include="tools\new_triangulation\IO\Povray.hpp" />
+    <ClInclude Include="tools\new_triangulation\IO\Povray.ipp" />
+    <ClInclude Include="tools\new_triangulation\MonteCarlo\Process.hpp" />
+    <QtMoc Include="gui\QCSParameterDelegate.h">
+    </QtMoc>
+    <ClInclude Include="tools\random\Random.h" />
+    <ClInclude Include="model\Lattice\RotationalSpring.h" />
+    <ClInclude Include="tools\new_triangulation\MonteCarlo\RuleBasedAgent.hpp" />
+    <ClInclude Include="model\Lattice\SimulationObject.h" />
+    <ClInclude Include="model\BasicDatatypes\Spring.h" />
+    <ClInclude Include="tools\Tools.h" />
+    <ClInclude Include="model\BasicDatatypes\Triangle.h" />
+    <ClInclude Include="gui\GLTools\TriangulatedCell.h" />
+    <ClInclude Include="tools\triangulation\Triangulation.hpp" />
+    <ClInclude Include="model\Model\ModelVascularization\Tumor.hpp" />
+    <ClInclude Include="model\BasicDatatypes\Utils.h" />
+    <ClInclude Include="model\BasicDatatypes\Vector.h" />
+    <ClInclude Include="Version.h" />
+    <ClInclude Include="model\Model\ModelVascularization\VesselGraph.hpp" />
+    <ClInclude Include="model\Model\ModelVascularization\VoronoiDiagram.hpp" />
+    <ClInclude Include="tools\new_triangulation\Geometry\array.h" />
+    <ClInclude Include="tools\new_triangulation\Geometry\array2d.h" />
+    <ClInclude Include="tools\new_triangulation\Geometry\datavertex.hpp" />
+    <ClInclude Include="tools\new_triangulation\Geometry\datavertex.ipp" />
+    <ClInclude Include="tools\math\delaunay.h" />
+    <ClInclude Include="tools\discvor\discvor.h" />
+    <ClInclude Include="tools\new_triangulation\LinearAlgebra\finiteelements.hpp" />
+    <ClInclude Include="tools\new_triangulation\LinearAlgebra\finiteelements.ipp" />
+    <ClInclude Include="tools\math\mathematics.h" />
+    <ClInclude Include="tools\new_triangulation\LinearAlgebra\mathematix.hpp" />
+    <ClInclude Include="tools\new_triangulation\LinearAlgebra\mathematix.ipp" />
+    <ClInclude Include="tools\new_triangulation\LinearAlgebra\matrix.hpp" />
+    <ClInclude Include="tools\new_triangulation\LinearAlgebra\matrix.ipp" />
+    <ClInclude Include="tools\new_triangulation\Geometry\numtraits.h" />
+    <ClInclude Include="tools\new_triangulation\Geometry\octree.hpp" />
+    <ClInclude Include="tools\new_triangulation\Geometry\octree.ipp" />
+    <ClInclude Include="tools\new_triangulation\Geometry\point3d.h" />
+    <ClInclude Include="tools\new_triangulation\Geometry\shareddata.h" />
+    <ClInclude Include="tools\new_triangulation\LinearAlgebra\solver.hpp" />
+    <ClInclude Include="tools\new_triangulation\LinearAlgebra\solver.ipp" />
+    <ClInclude Include="tools\sort\sort.h" />
+    <ClInclude Include="tools\new_triangulation\LinearAlgebra\sparsematrix.hpp" />
+    <ClInclude Include="tools\new_triangulation\LinearAlgebra\sparsematrix.ipp" />
+    <ClInclude Include="tools\new_triangulation\LinearAlgebra\sparsevector.hpp" />
+    <ClInclude Include="tools\new_triangulation\LinearAlgebra\sparsevector.ipp" />
+    <ClInclude Include="tools\new_triangulation\IO\tinystr.h" />
+    <ClInclude Include="tools\new_triangulation\Geometry\tinyvector.h" />
+    <ClInclude Include="tools\new_triangulation\IO\tinyvector.h" />
+    <ClInclude Include="tools\new_triangulation\IO\tinyxml.h" />
+    <ClInclude Include="tools\new_triangulation\Geometry\triangulation.hpp" />
+    <ClInclude Include="tools\new_triangulation\Geometry\triangulation.ipp" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="debug\moc_predefs.h.cbt">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\mkspecs\features\data\dummy.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cl -Bx"$(QTDIR)\bin\qmake.exe" -nologo -Zc:wchar_t -FS -Zc:strictStrings -Zc:throwingNew /bigobj -Zi -MDd -E -Za $(QTDIR)\mkspecs\features\data\dummy.cpp 2&gt;NUL &gt;debug\moc_predefs.h</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generate moc_predefs.h</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">debug\moc_predefs.h;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="release\moc_predefs.h.cbt">
+      <FileType>Document</FileType>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\mkspecs\features\data\dummy.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cl -Bx"$(QTDIR)\bin\qmake.exe" -nologo -Zc:wchar_t -FS -Zc:strictStrings -Zc:throwingNew /bigobj -O2 -MD -E -Za $(QTDIR)\mkspecs\features\data\dummy.cpp 2&gt;NUL &gt;release\moc_predefs.h</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generate moc_predefs.h</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">release\moc_predefs.h;%(Outputs)</Outputs>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </CustomBuild>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
+    <Import Project="$(QtMsBuild)\qt.targets" />
+  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties UicDir=".\GeneratedFiles" RccDir=".\GeneratedFiles" Qt5Version_x0020_x64="5.8.0" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
