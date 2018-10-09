@@ -26,6 +26,7 @@
 #include "SimulationObject.h"
 #include "LatticeSpring.h"
 #include "ModelElementLatticeNode.h"
+//#include "model/Elements/ModelElementEdge.h"
 #include "model/Elements/ModelElementSphere.h"
 //#include "CSParameterContext.h"
 #include "Function.h"
@@ -33,6 +34,9 @@
 //#include "xmlParser/xmlParser.h"
 //#include "tools/factory/Parameter.h"
 #include "gui/GLTools/CSGLBar.h"
+
+// added by Jieling
+namespace H5 { class CompType; };
 
 using std::vector;
 
@@ -87,6 +91,9 @@ private:
     // member variables
     ModelElementLatticeNode *n1, *n2;
 
+	// added by Jieling
+	//ModelElementEdge *boundEdge;
+
     // Parameters that are loaded from XML
     //Parameter2<double> l0;
 	double l0;
@@ -114,8 +121,14 @@ public:
 	// added by Jieling
 	BoundingBox * boundingBox();
 	CSGLObject * GLObject() { return mpGLObject; }
+	//virtual const Vector3f& GetEndPoints(int index) const override;
+	//virtual void setEndPoints() override;
 	double getLength() { return (n1->position - n2->position).Norm(); }
+	double getLength0() { return length0; }
+	void setLength0(double l) { length0 = l; initialL0 = l; }
+	void reset();
 	void strainTestForce();
+	void scaledStretch(double scale);
 	void unboundCheck();
 	// for plasticity
 	bool harden; // if it is harden: permanently elongated
@@ -123,6 +136,8 @@ public:
 	double strainHarden; // the strain for hardening
 	void elongation();
 	double getStrainY();
+	// checking if it is binding with another linearSpring
+	bool bindingSpring(LinearSpring * S);
 	// for unbinding
 	double n1_k_off;
 	double n2_k_off; // initial: 0; 
@@ -130,6 +145,7 @@ public:
 	bool n2_unbound; // false: bound; true: unbound
 	void changeN1(ModelElementLatticeNode* N);
 	void changeN2(ModelElementLatticeNode* N);
+
 	double getStrain();
 
 private:

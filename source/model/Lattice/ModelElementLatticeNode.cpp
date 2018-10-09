@@ -57,11 +57,26 @@ ModelElementLatticeNode::ModelElementLatticeNode(double x, double y,
     //registerParameter(mDecayAble);
 
 	// added by Jieling
+	fixed = false;
 	touched = false;
 	fibreEnd = false;
 	top = false;
 	bottom = false;
+	left = false;
+	right = false;
+	front = false;
+	back = false;
 	free = false;
+
+	mMoment = 0.;
+	mMomentI = 0.;
+	mShearMoment = 0.;
+	mShearMomentDirection.x = 0.;
+	mShearMomentDirection.y = -1.;
+	mShearMomentDirection.z = 0.;
+	oCoord.x = x;
+	oCoord.y = y;
+	oCoord.z = z;
 
 	mStrainTestForce = 0.;
 
@@ -103,6 +118,8 @@ ModelElementLatticeNode::HDF5DataFormat(H5::CompType & typeDefinition)
 	typeDefinition.insertMember("Position", HOFFSET(ModelElementLatticeNode, position), positionType);
 	typeDefinition.insertMember("Radius", HOFFSET(ModelElementLatticeNode, mRadius), H5::PredType::NATIVE_DOUBLE);
 	typeDefinition.insertMember("Element Type", HOFFSET(ModelElementLatticeNode, mType), H5::PredType::NATIVE_UINT);
+	typeDefinition.insertMember("Young", HOFFSET(ModelElementLatticeNode, mYoung), H5::PredType::NATIVE_DOUBLE);
+	typeDefinition.insertMember("Poisson", HOFFSET(ModelElementLatticeNode, mPoisson), H5::PredType::NATIVE_DOUBLE);
 }
 
 H5::CompType
@@ -137,6 +154,18 @@ ModelElementLatticeNode::ParseHDF5DataFormat(H5::CompType &inputTypeDefinition,
 			typeDefinition.insertMember("Element Type",
 				HOFFSET(ModelElementLatticeNode, mType),
 				H5::PredType::NATIVE_UINT);
+		}
+		else if (fieldName == "Young")
+		{
+			typeDefinition.insertMember("Young",
+				HOFFSET(ModelElementLatticeNode, mYoung),
+				H5::PredType::NATIVE_DOUBLE);
+		}
+		else if (fieldName == "Poisson")
+		{
+			typeDefinition.insertMember("Poisson",
+				HOFFSET(ModelElementLatticeNode, mPoisson),
+				H5::PredType::NATIVE_DOUBLE);
 		}
 		else if (fieldName == "Ignore")
 		{
@@ -182,6 +211,16 @@ void ModelElementLatticeNode::removeNeighbor(ModelElementLatticeNode *E)
 	}
 }
 
+bool ModelElementLatticeNode::checkNeighbor(ModelElementLatticeNode *E)
+{
+	std::vector<ModelElementLatticeNode*>::iterator findE
+		= std::find(nodes.begin(), nodes.end(), E);
+	if (findE != nodes.end())
+		return true;
+	else
+		return false;
+}
+
 void ModelElementLatticeNode::addSpring(LatticeSpring *E)
 {
 	std::vector<LatticeSpring*>::iterator findE
@@ -210,6 +249,31 @@ void ModelElementLatticeNode::removeSpring(LatticeSpring *E)
 	{
 		springs.erase(findE);
 	}
+}
+
+bool ModelElementLatticeNode::checkSpring(LatticeSpring *E)
+{
+	std::vector<LatticeSpring*>::iterator findE
+		= std::find(springs.begin(), springs.end(), E);
+	if (findE != springs.end())
+		return true;
+	else
+		return false;
+}
+
+LatticeSpring* ModelElementLatticeNode::locateSpring(ModelElementLatticeNode *E)
+{
+	LatticeSpring *locateS = NULL;
+	for (int i = 0; i < springs.size(); i++)
+	{
+		if ((springs.at(i)->nodes().at(0) == this && springs.at(i)->nodes().at(1) == E) ||
+			(springs.at(i)->nodes().at(1) == this && springs.at(i)->nodes().at(0) == E))
+		{
+			locateS = springs.at(i);
+			break;
+		}
+	}
+	return locateS;
 }
 
 void ModelElementLatticeNode::removeRspring(LatticeSpring *E)
@@ -256,7 +320,7 @@ bool ModelElementLatticeNode::removeFibre(ModelElementFibre *F)
 {
 	// a fibre detach from the node
 	if (F != NULL)
-		std::cout << "	-> Removing a fibre in the node" << std::endl;
+		std::cout << "	-> Removing a fibre " << F->n1->mGlobalIndex << "-" << F->n2->mGlobalIndex << " in the node " << mGlobalIndex << std::endl;
 	else
 		return false;
 
@@ -279,6 +343,16 @@ bool ModelElementLatticeNode::removeFibre(ModelElementFibre *F)
 	}
 
 	return true;
+}
+
+bool ModelElementLatticeNode::checkFibre(ModelElementFibre *F)
+{
+	std::vector<ModelElementFibre*>::iterator findF
+		= std::find(fibres.begin(), fibres.end(), F);
+	if (findF != fibres.end())
+		return true;
+	else
+		return false;
 }
 
 void ModelElementLatticeNode::load(/*XMLNode& node,*/ std::stringstream& errors,

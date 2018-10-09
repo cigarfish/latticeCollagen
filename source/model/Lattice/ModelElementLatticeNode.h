@@ -57,11 +57,15 @@ struct ModelElementLatticeNode : public SimulationObject, public ModelElementSph
 		std::stringstream & warnings);
 	void addNeighbor(ModelElementLatticeNode* E);
 	void removeNeighbor(ModelElementLatticeNode* E);
+	bool checkNeighbor(ModelElementLatticeNode* E);
 	void addSpring(LatticeSpring *E);
 	void removeSpring(LatticeSpring *E);
+	bool checkSpring(LatticeSpring *E);
+	LatticeSpring *locateSpring(ModelElementLatticeNode *E);
 	void removeRspring(LatticeSpring *E);
 	bool addFibre(ModelElementFibre *F);
 	bool removeFibre(ModelElementFibre *F);
+	bool checkFibre(ModelElementFibre *F);
 
 	unsigned int mIndex;
 
@@ -97,15 +101,36 @@ struct ModelElementLatticeNode : public SimulationObject, public ModelElementSph
 	double mPoisson;
 
 	// added by Jieling
+	double mShear; // shear modulus
+	Vector3f mMomentI; // the integral of bending moment over the fibre
+	double mMoment; // the moment due to bending
+	double mShearMoment; // the shear force due to bending
+	Vector3f mShearMomentDirection; // the direction of the shear
+	Vector3f oCoord; // the initial position
+
+	// added by Jieling
+	bool fixed; // fixed node
 	bool touched; // force applied on
 	bool fibreEnd; // if it is the endnode of the fibre
-	bool top; // for test in the cubic lattice
-	bool bottom; // for test in the cubic lattice
+	bool top; // y, for test in the cubic lattice
+	bool bottom; // y, for test in the cubic lattice
+	bool left; // x, for test in the cubic lattice
+	bool right; // x, for test in the cubic lattice
+	bool front; // z, for test in the cubic lattice
+	bool back; // z, for test in the cubic lattice
 	bool free; // if it is a free node (without binding to another fibre)
 	Vector3f mLinearForce;
 	Vector3f mRotationalForce;
 	Vector3f mStrainTestForce;
 	Vector3f mStrainTestForceLoaded;
+	// for cell-lattice pressure test
+	Vector3f testForce;
+	// for lattice-lattice pressure test
+	Vector3f testLatticeForce;
+	// view the spring-spring distance vector
+	Vector3f mHeadHeadV;
+	Vector3f mHeadSideV;
+	Vector3f mSideSideV;
 
     //Parameter2<double, PointerReader, DefaultValPolicy> mForceHardMag;
     //Parameter2<double, PointerReader, DefaultValPolicy> mForceHardCrit;

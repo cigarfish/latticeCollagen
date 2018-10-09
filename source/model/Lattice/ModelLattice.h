@@ -28,6 +28,7 @@
 //#include "tools/factory/Parameter.h"
 #include "model/Model/CSModel.h"
 #include "model/Lattice/ModelElementLatticeNode.h"
+#include "model/Elements/ModelElementEdge.h"
 // added by Jieling
 #include "tools/math/delaunay.h"
 
@@ -65,19 +66,32 @@ public:
 	// added by Jieling
 	vector<LatticeSpring*> &getSprings() { return springs; };
 	vector<ModelElementFibre*> &getFibres() { return fibres; }
+	vector<ModelElementEdge*> &getEdges() { return edges; }
 
     // Function to remove nodes from the lattice
 	bool addNode(ModelElementLatticeNode * to_add);
 	bool removeNode(ModelElementLatticeNode * to_remove);
     bool removeNodes(const std::vector<ModelElementLatticeNode * >& to_remove); // DO NOT USE
 	// added by Jieling
+	bool addLinearSpring(LatticeSpring * to_add);
+	bool addRotationalSpring(LatticeSpring * to_add);
+	void mergeTwoNodes(ModelElementLatticeNode * n1, ModelElementLatticeNode * n2);
+	bool addEdge(ModelElementEdge * to_add);
+	bool removeEdge(ModelElementEdge * to_remove);
 	// the two basic functions to remove a fibre/spring from the lattice system
+	bool removeLatticeSpring(LatticeSpring * to_remove);
 	bool removeSpring(LatticeSpring * to_remove);
 	void removeNodeRSprings(ModelElementLatticeNode * N); // remove all rotational springs from the node
 	void removeNodeRSpringsL(ModelElementLatticeNode * N1, ModelElementLatticeNode * N2); // remove the rotational spring regarding N1 and N2
+	bool addFibre(ModelElementFibre * to_add);
 	bool removeFibre(ModelElementFibre * to_remove);
+	void circleFibre(LatticeSpring * ls, vector<ModelElementFibre*> & fs); // if a fibre has the same end nodes of the given spring
+	void circleFibre(ModelElementLatticeNode *node1, ModelElementLatticeNode *node2, vector<ModelElementFibre*> & fs);
+	void cutFibre(ModelElementFibre * to_cut, ModelElementLatticeNode * splitN); // cut a fibre at a given node
+	bool addRotationalSpringNode(ModelElementLatticeNode * nQ, ModelElementFibre * fQ);
 	void freeFibre(ModelElementFibre *F, int eIndex); // eIndex: 1/2 for node 1/2
 	void createNetwork(double cutoff, int subDivide);
+	void createNetworkSimple(double cutoff, int subDivide);
 	// cutoff: only spring with distance < cutoff
 	// subDivide: divide the spring into subDivide segements
 	void updateFibreBound(); // fibre unbound if strain > th
@@ -117,6 +131,10 @@ public:
     std::array<double, 3> LatticeDimension() const;
     //void output(unsigned int outidx) const override;
 
+	// added by Jieling
+	double fibreSize; // the basic fibre length
+	double mergeFract = 0.25; // if a spring is smaller than mergeFract * fibreSize, it shrinks into a node
+
 private:
     // the nodes in the lattice
     const std::string nodeName {"Node"};
@@ -135,6 +153,9 @@ private:
     const std::string springName {"Spring"};
     //vector<std::unique_ptr<Spring>> springs;
 	vector<LatticeSpring*> springs;
+
+	// added by Jieling
+	vector<ModelElementEdge*> edges; // this is only for the bounding box of the springs
 
     // the fibres in the network
     const std::string fibreName {"Fibre"};

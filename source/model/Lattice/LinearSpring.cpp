@@ -151,7 +151,8 @@ void LinearSpring::initialize()
 	double aY = (n1->mYoung + n2->mYoung)/2;
 	mYoung = aY;
 	mPoisson = (n1->mPoisson + n2->mPoisson) / 2;
-	mRadius = 0.0212 * 4; // for test
+	//mRadius = 0.0212 * 4; // for test
+	mRadius = aR;
 
 	((LinearStrainFunction*)msStiffness)->setK(aY * aR * aR * 3.14159265 / length0);
 
@@ -218,7 +219,7 @@ void LinearSpring::update(double timeStep)
     //n1->ApplyForce(force,   length * OrientationAxis, forceAbs);
     //n2->ApplyForce(-force, -length * OrientationAxis, forceAbs);
 
-	std::cout << "	-> linearForce on node " << n1->mGlobalIndex << " and node " << n2->mGlobalIndex << ": " << forceAbs << ", strain: " << curStrain << std::endl;
+	//std::cout << "	-> linearForce on node " << n1->mGlobalIndex << " and node " << n2->mGlobalIndex << ": " << forceAbs << ", strain: " << curStrain << std::endl;
 
     n1->ApplyForce(force,  abs(forceAbs));
     n2->ApplyForce(-force, abs(forceAbs));
@@ -226,6 +227,13 @@ void LinearSpring::update(double timeStep)
 	// added by Jieling
 	n1->mLinearForce += force;
 	n2->mLinearForce -= force;
+	// update force and pressure for nodes and spring
+	accumulatedForceAbsolute += abs(forceAbs);
+	accumulatedPressure += abs(forceAbs) / (mRadius * mRadius * 3.14159265);
+	n1->accumulatedForceAbsolute += abs(forceAbs);
+	n1->accumulatedPressure += abs(forceAbs) / (mRadius * mRadius * 3.14159265);
+	n2->accumulatedForceAbsolute += abs(forceAbs);
+	n2->accumulatedPressure += abs(forceAbs) / (mRadius * mRadius * 3.14159265);
 
     //const double max_force {10000};
     //if (max(abs(force)) > max_force)
@@ -245,16 +253,47 @@ void LinearSpring::update(double timeStep)
 }
 
 // added by Jieling
+
+void LinearSpring::reset()
+{
+	auto OrientationAxis = n2->position - n1->position;
+	length0 = Norm(OrientationAxis);
+	initialL0 = length0;
+
+	initialLY = std::abs(n2->position.y - n1->position.y);
+	if (initialLY == 0) initialLY = 0.000001;
+	double aR = (n1->mRadius + n2->mRadius) / 2;
+	mRadius = aR;
+	((LinearStrainFunction*)msStiffness)->setK(mYoung * aR * aR * 3.14159265 / length0);
+}
+
 void LinearSpring::changeN1(ModelElementLatticeNode *N)
 {
 	n1 = N;
+	reset();
+	boundEdge->setPoint(&(N->position), 0);
+	boundEdge->e1Index = N->mGlobalIndex;
 	static_cast<CSGLBar*>(mpGLObject)->changeP1(&N->position);
 }
 
 void LinearSpring::changeN2(ModelElementLatticeNode *N)
 {
 	n2 = N;
+	reset();
+	boundEdge->setPoint(&(N->position), 1);
+	boundEdge->e2Index = N->mGlobalIndex;
 	static_cast<CSGLBar*>(mpGLObject)->changeP2(&N->position);
+}
+
+bool LinearSpring::bindingSpring(LinearSpring *S)
+{
+	if (n1 == S->nodes().at(0) ||
+		n1 == S->nodes().at(1) ||
+		n2 == S->nodes().at(0) ||
+		n2 == S->nodes().at(1))
+		return true;
+
+	return false;
 }
 
 void LinearSpring::unboundCheck()
@@ -454,4 +493,32 @@ void LinearSpring::strainTestForce()
 
 	n1->mStrainTestForce += force;
 	n2->mStrainTestForce -= force;
+}
+
+void LinearSpring::scaledStretch(double scale)
+{
+	auto OrientationAxis = n2->position - n1->position;
+
+	double length = Norm(OrientationAxis);
+
+	double strain = 0.;
+	if (std::isnormal(length))
+	{
+		// normalize the OrientationAxis
+		OrientationAxis /= length;
+		strain = length - length0;
+	}
+	else
+	{
+		strain = 0;
+		std::cerr << "WARNING: " << std::endl;
+	}
+
+	// compute the force
+	double forceAbs = (*msStiffness)(strain) * scale;
+
+	Vector3f force = forceAbs * OrientationAxis;
+
+	n1->directedForce += force;
+	n2->directedForce -= force;
 }

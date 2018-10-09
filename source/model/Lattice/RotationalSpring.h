@@ -78,6 +78,13 @@ private:
     // Holds the relaxed angle
     double phi0;
 
+	// added by Jieling
+	double curv0; // the default curvature
+	double fibreLength;
+	Vector3f n10;
+	Vector3f n20;
+	Vector3f center0; // the original position of the nodes, to calculate the change of the angle
+
 public:
     virtual void print(std::ostream& stream) const override;
     virtual void initialize() override;
@@ -91,8 +98,24 @@ public:
     virtual std::vector<ModelElementLatticeNode*> nodes() const override;
     virtual unsigned int numberOfNodes() const override;
 	// added by Jieling
+	//virtual const Vector3f& GetEndPoints(int index) const override;
+	//virtual void setEndPoints() override;
+	ModelElementLatticeNode *getN1() { return n1; }
+	ModelElementLatticeNode *getN2() { return n2; }
+	ModelElementLatticeNode *getCenter() { return center; }
+	void changeN1(ModelElementLatticeNode* N);
+	void changeN2(ModelElementLatticeNode* N);
+	void changeCenter(ModelElementLatticeNode* N);
 	double getLength1C() { return (n1->position - center->position).Norm(); }
 	double getLength2C() { return (n2->position - center->position).Norm(); }
+	double getPhi0() { return phi0; }
+	double getCurvature();
+	double getBendingForce();
+	double getEI();
+	void setPhi0(double p) { phi0 = p; }
+	void reset();
+	void setFibreLength(double l) { fibreLength = l; reset(); }
+	void setFibreLengthOnly();
 	void strainTestForce();
 };
 

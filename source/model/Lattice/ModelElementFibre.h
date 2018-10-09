@@ -45,8 +45,10 @@ struct ModelElementFibre : public SimulationObject
 	// revised by Jieling
 	void addNode(ModelElementLatticeNode* N);
 	void removeNode(ModelElementLatticeNode* N);
+	bool checkNode(ModelElementLatticeNode *N);
 	void addSpring(LatticeSpring *S);
 	void removeSpring(LatticeSpring* S);
+	bool checkSpring(LatticeSpring *S);
 	void unboundE(int end, ModelElementLatticeNode* N); // detach the fibre from end node 1/2 and bind to N
 	void unboundM(ModelElementLatticeNode* O, ModelElementLatticeNode *N); // detach the fibre from middle node O and bind to N
 	LatticeSpring* locateSpring(ModelElementLatticeNode* e1, ModelElementLatticeNode* e2);
@@ -54,17 +56,34 @@ struct ModelElementFibre : public SimulationObject
     const vector<ModelElementLatticeNode*>& getNodes() const;
 	// added by Jieling
 	vector<LatticeSpring*> &getSprings() { return springs; }
-
+	bool locateNodeSpring(ModelElementLatticeNode *node1, ModelElementLatticeNode *node2, std::vector<ModelElementLatticeNode*> &ns, std::vector<LatticeSpring*> &ls);
+	int relativePosition(ModelElementLatticeNode *node1, ModelElementLatticeNode *node2, 
+		std::vector<ModelElementLatticeNode*> &n1s, std::vector<LatticeSpring*> &l1s, 
+		std::vector<ModelElementLatticeNode*> &n2s, std::vector<LatticeSpring*> &l2s);
+	bool relativeSinglePosition(ModelElementLatticeNode *node, 
+		std::vector<ModelElementLatticeNode*> &ns, std::vector<LatticeSpring*> &ls);
+	ModelElementLatticeNode* splitNode(ModelElementLatticeNode *node1, ModelElementLatticeNode *node2);
+	bool selfMerge();
+	void addVirtualNodes();
+	double getEndBendingForce(int endType);
+	
 	// added by Jieling
 	ModelElementLatticeNode* n1;
 	ModelElementLatticeNode* n2; // the two end-nodes of the fiber
 	vector<ModelElementLatticeNode*> nodes; // nodes within the fibre
 	vector<LatticeSpring*> springs; // LinearSprings within the fibre
+	// bending type: 
+	// -1: not able to bend
+	// 0: fixed end node 
+	bool bending; // if this fibre has bending energy
+	Vector3f mVirtualN1; // a virtual node next to n1
+	Vector3f mVirtualN2; // a virtual node next to n2
+	double length; // fibre length
 	bool n1Bound;
 	bool n2Bound; // if these two end-nodes are bound to the other fibres
 	LatticeSpring* getE1();
 	LatticeSpring* getE2(); // the two end-node springs
-
+	
     //virtual void load(XMLNode& node,
     //                  std::stringstream& errors,
     //                  std::stringstream& warnings) override;
