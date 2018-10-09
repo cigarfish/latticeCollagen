@@ -155,9 +155,9 @@ void RotationalSpring::initialize()
 	// calculate the curvature: sqrt(2(1 - cos(theta)))
 	double n1cd = (center->position - n1->position).Norm();
 	double cn2d = (n2->position - center->position).Norm();
-	double n1pn2 = n1->position.x * n2->position.x +
-		n1->position.y * n2->position.y +
-		n1->position.z * n2->position.z;
+	double n1pn2 = (center->position.x - n1->position.x) * (n2->position.x - center->position.x) +
+		(center->position.y - n1->position.y) * (n2->position.y - center->position.y) +
+		(center->position.z - n1->position.z) * (n2->position.z - center->position.z);
 	curv0 = sqrt(2 * (1. - n1pn2 / n1cd / cn2d));
 
 	msStiffness = new LinearStrainFunction();
@@ -348,18 +348,11 @@ double RotationalSpring::getBendingForce()
 	double dy = (lny - lnm1y)/lnd/lnm1d + lnlnm1/lnd/lnm1d * (lny/lnd/lnd - lnm1y/lnm1d/lnm1d);
 	double dz = (lnz - lnm1z)/lnd/lnm1d + lnlnm1/lnd/lnm1d * (lnz/lnd/lnd - lnm1z/lnm1d/lnm1d);
 	// calculate the moment:
-	double curv = sqrt(2 * (1. - lnlnm1 / lnd / lnm1d)) - curv0;
+	double curv = sqrt(2 * (1. - lnlnm1 / lnd / lnm1d));
 	double theta = acos(lnlnm1 / lnd / lnm1d);
 	double moment = (*msStiffness)(curv) / lnd;
-	double dcos = 1.;
-	if (abs(theta - phi0) < 1e-8)
-		dcos = 0.;
-	else
-	{
-		dcos = (theta - phi0) / sin(theta);
-	}
 	//
-	double scaleF = (*msStiffness)(1.) / lnd * dcos;
+	double scaleF = (*msStiffness)(1.) / lnd;
 	// this dx, dy, dz is cos(theta(a+1)) for ra of d(a+1) and d(a), for the center
 	// assign it to center
 	center->mRotationalForce.x += dx * scaleF;
@@ -405,9 +398,9 @@ void RotationalSpring::reset()
 	// update the curvature
 	double n1cd = (center->position - n1->position).Norm();
 	double cn2d = (n2->position - center->position).Norm();
-	double n1pn2 = n1->position.x * n2->position.x +
-		n1->position.y * n2->position.y +
-		n1->position.z * n2->position.z;
+	double n1pn2 = (center->position.x - n1->position.x) * (n2->position.x - center->position.x) +
+		(center->position.y - n1->position.y) * (n2->position.y - center->position.y) +
+		(center->position.z - n1->position.z) * (n2->position.z - center->position.z);
 	curv0 = sqrt(2 * (1. - n1pn2 / n1cd / cn2d));
 
 	double aR = (n1->mRadius + n2->mRadius + center->mRadius) / 3;
