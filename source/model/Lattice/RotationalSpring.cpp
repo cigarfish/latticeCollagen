@@ -136,6 +136,7 @@ void RotationalSpring::initialize()
         Vector3d n_b  = n1->position - center->position;
         Vector3d n_bp = n2->position - center->position;
         phi0 = Angle(n_b, n_bp);
+		theta0 = Angle(-n_b, n_bp);
     }
     else
     {
@@ -151,13 +152,21 @@ void RotationalSpring::initialize()
 	center0.x = center->position.x;
 	center0.y = center->position.y;
 	center0.z = center->position.z;
+	// initially, coordination system matrix is Identity matrix
+	// rotation matrix rotates theta0 along z-axis of the coordination system, counter-clockwise
+	RM[0][0] = cos(theta0);RM[0][1] = sin(theta0);RM[0][2] = 0.;
+	RM[0][0] = -sin(theta0);RM[0][1] = cos(theta0);RM[0][2] = 0.;
+	RM[0][0] = 0.;RM[0][1] = 0.;RM[0][2] = 1.;
+	CS[0][0] = 1.;CS[0][1] = 0.;CS[0][2] = 0.;
+	CS[0][0] = 0.;CS[0][1] = 1.;CS[0][2] = 0.;
+	CS[0][0] = 0.;CS[0][1] = 0.;CS[0][2] = 1.;
 
 	// calculate the curvature: sqrt(2(1 - cos(theta)))
 	double n1cd = (center->position - n1->position).Norm();
 	double cn2d = (n2->position - center->position).Norm();
-	double n1pn2 = (center->position.x - n1->position.x) * (n2->position.x - center->position.x) +
-		(center->position.y - n1->position.y) * (n2->position.y - center->position.y) +
-		(center->position.z - n1->position.z) * (n2->position.z - center->position.z);
+	double n1pn2 = n1->position.x * n2->position.x +
+		n1->position.y * n2->position.y +
+		n1->position.z * n2->position.z;
 	curv0 = sqrt(2 * (1. - n1pn2 / n1cd / cn2d));
 
 	msStiffness = new LinearStrainFunction();
@@ -343,42 +352,95 @@ double RotationalSpring::getBendingForce()
 	double lnm1d = sqrt(lnm1x * lnm1x + lnm1y * lnm1y + lnm1z * lnm1z);
 	//
 	double lnlnm1 = lnx * lnm1x + lny * lnm1y + lnz * lnm1z;
-	//
-	double dx = (lnx - lnm1x)/lnd/lnm1d + lnlnm1/lnd/lnm1d * (lnx/lnd/lnd - lnm1x/lnm1d/lnm1d);
-	double dy = (lny - lnm1y)/lnd/lnm1d + lnlnm1/lnd/lnm1d * (lny/lnd/lnd - lnm1y/lnm1d/lnm1d);
-	double dz = (lnz - lnm1z)/lnd/lnm1d + lnlnm1/lnd/lnm1d * (lnz/lnd/lnd - lnm1z/lnm1d/lnm1d);
 	// calculate the moment:
-	double curv = sqrt(2 * (1. - lnlnm1 / lnd / lnm1d));
+	double curv = sqrt(2 * (1. - lnlnm1 / lnd / lnm1d)) - curv0;
 	double theta = acos(lnlnm1 / lnd / lnm1d);
 	double moment = (*msStiffness)(curv) / lnd;
+	double dcos = 1.;
+	if (abs(theta - theta0) < 1e-5)
+		dcos = 0.;
+	else
+	{
+		dcos = (theta - theta0) / sin(theta - theta0);
+	}
 	//
-	double scaleF = (*msStiffness)(1.) / lnd;
+	double scaleF = (*msStiffness)(1.) / lnd * dcos;
+	// update the rotation matrix
+	if (abs(theta) > 1e-5)
+	{
+		double csxx = center->position.x - n1->position.x;
+		double csxy = center->position.y - n1->position.y;
+		double csxz = center->position.z - n1->position.z;
+		double csxd = sqrt(csxx*csxx + csxy*csxy + csxz*csxz);
+		csxx /= csxd; csxy /= csxd; csxz /= csxd;
+		double cszx = csxy * (n2->position.z - center->position.z) - csxz * (n2->position.y - center->position.y);
+		double cszy = csxz * (n2->position.x - center->position.x) - csxx * (n2->position.z - center->position.z);
+		double cszz = csxx * (n2->position.y - center->position.y) - csxy * (n2->position.x - center->position.x);
+		double cszd = sqrt(cszx*cszx + cszy*cszy + cszz*cszz);
+		cszx /= cszd; cszy /= cszd; cszz /= cszd;
+		double csyx = cszy * csxz - cszz * csxy;
+		double csyy = cszz * csxx - cszx * csxz;
+		double csyz = cszx * csxy - cszy * csxx;
+		CS[0][0] = csxx;CS[0][1] = csxy;CS[0][2] = csxz;
+		CS[1][0] = csyx;CS[1][1] = csyy;CS[1][2] = csyz;
+		CS[2][0] = cszx;CS[2][1] = cszy;CS[2][2] = cszz;
+	}
+	else
+	{
+		// n1 - center - n2 is almost a straight line
+		if (abs(theta0) < 1e-5)
+		{
+			// coordination system matrix is idendity matrix
+			CS[0][0] = 1.;CS[0][1] = 0.;CS[0][2] = 0.;
+			CS[0][0] = 0.;CS[0][1] = 1.;CS[0][2] = 0.;
+			CS[0][0] = 0.;CS[0][1] = 0.;CS[0][2] = 1.;
+		}
+		else
+		{
+			// use the reference position to build the coordination system
+			double csxx = center->position.x - n1->position.x;
+			double csxy = center->position.y - n1->position.y;
+			double csxz = center->position.z - n1->position.z;
+			double csxd = sqrt(csxx*csxx + csxy*csxy + csxz*csxz);
+			csxx /= csxd; csxy /= csxd; csxz /= csxd;
+			double cszx = csxy * (n20 - center0).z - csxz * (n20 - center0).y;
+			double cszy = csxz * (n20 - center0).x - csxx * (n20 - center0).z;
+			double cszz = csxx * (n20 - center0).y - csxy * (n20 - center0).x;
+			double cszd = sqrt(cszx*cszx + cszy*cszy + cszz*cszz);
+			cszx /= cszd; cszy /= cszd; cszz /= cszd;
+			double csyx = cszy * csxz - cszz * csxy;
+			double csyy = cszz * csxx - cszx * csxz;
+			double csyz = cszx * csxy - cszy * csxx;
+			CS[0][0] = csxx;CS[0][1] = csxy;CS[0][2] = csxz;
+			CS[1][0] = csyx;CS[1][1] = csyy;CS[1][2] = csyz;
+			CS[2][0] = cszx;CS[2][1] = cszy;CS[2][2] = cszz;
+		}
+	}
+	// get the inverse of CS
+	CSInverse();
+	//
+	double dx = 0., dy = 0., dz = 0.;
 	// this dx, dy, dz is cos(theta(a+1)) for ra of d(a+1) and d(a), for the center
 	// assign it to center
+	getd2(dx, dy, dz);
 	center->mRotationalForce.x += dx * scaleF;
 	center->mRotationalForce.y += dy * scaleF;
 	center->mRotationalForce.z += dz * scaleF;
 	center->directedForce.x += dx * scaleF;
 	center->directedForce.y += dy * scaleF;
 	center->directedForce.z += dz * scaleF;
-	//
-	dx = -1. / lnd / lnm1d * (lnlnm1 * lnx / lnd / lnd - lnm1x);
-	dy = -1. / lnd / lnm1d * (lnlnm1 * lny / lnd / lnd - lnm1y);
-	dz = -1. / lnd / lnm1d * (lnlnm1 * lnz / lnd / lnd - lnm1z);
 	// this dx, dy, dz is cos(theta(a)) for ra of d(a-1) and d(a), for the n2
 	// assign it to n2
+	getd1(dx, dy, dz);
 	n2->mRotationalForce.x += dx * scaleF;
 	n2->mRotationalForce.y += dy * scaleF;
 	n2->mRotationalForce.z += dz * scaleF;
 	n2->directedForce.x += dx * scaleF;
 	n2->directedForce.y += dy * scaleF;
 	n2->directedForce.z += dz * scaleF;
-	//
-	dx = 1. / lnd / lnm1d * (lnlnm1 / lnm1d / lnm1d * lnm1x - lnx);
-	dy = 1. / lnd / lnm1d * (lnlnm1 / lnm1d / lnm1d * lnm1y - lny);
-	dz = 1. / lnd / lnm1d * (lnlnm1 / lnm1d / lnm1d * lnm1z - lnz);
 	// this dx, dy, dz is cos(theta(a+2)) for ra of d(a+1) and d(a+2), for the n1
 	// assign it to n1
+	getd3(dx, dy, dz);
 	n1->mRotationalForce.x += dx * scaleF;
 	n1->mRotationalForce.y += dy * scaleF;
 	n1->mRotationalForce.z += dz * scaleF;
@@ -387,6 +449,150 @@ double RotationalSpring::getBendingForce()
 	n1->directedForce.z += dz * scaleF;
 
 	return moment;
+}
+
+void RotationalSpring::CSInverse()
+{
+	double a = CS[0][0];
+	double b = CS[0][1];
+	double c = CS[0][2];
+	//
+	double d = CS[1][0];
+	double e = CS[1][1];
+	double f = CS[1][2];
+	//
+	double g = CS[2][0];
+	double h = CS[2][1];
+	double i = CS[2][2];
+	// det(CS) must be 1
+	CSI[0][0] = e*i - f*h;
+	CSI[0][1] = -(b*i - c*h);
+	CSI[0][2] = b*f - c*e;
+	//
+	CSI[1][0] = -(d*i - f*g);
+	CSI[1][1] = a*i - c*g;
+	CSI[1][2] = -(a*f - c*d);
+	//
+	CSI[2][0] = d*h - e*g;
+	CSI[2][1] = -(a*h - b*g);
+	CSI[2][2] = a*e - b*d;
+	// get CSI * RM * CS
+	double rc00 = RM[0][0] * CS[0][0] + RM[0][1] * CS[1][0] + RM[0][2] * CS[2][0];
+	double rc01 = RM[0][0] * CS[0][1] + RM[0][1] * CS[1][1] + RM[0][2] * CS[2][1];
+	double rc02 = RM[0][0] * CS[0][2] + RM[0][1] * CS[1][2] + RM[0][2] * CS[2][2];
+	//
+	double rc10 = RM[1][0] * CS[0][0] + RM[1][1] * CS[1][0] + RM[1][2] * CS[2][0];
+	double rc11 = RM[1][0] * CS[0][1] + RM[1][1] * CS[1][1] + RM[1][2] * CS[2][1];
+	double rc12 = RM[1][0] * CS[0][2] + RM[1][1] * CS[1][2] + RM[1][2] * CS[2][2];
+	//
+	double rc20 = RM[2][0] * CS[0][0] + RM[2][1] * CS[1][0] + RM[2][2] * CS[2][0];
+	double rc21 = RM[2][0] * CS[0][1] + RM[2][1] * CS[1][1] + RM[2][2] * CS[2][1];
+	double rc22 = RM[2][0] * CS[0][2] + RM[2][1] * CS[1][2] + RM[2][2] * CS[2][2];
+	//
+	TR[0][0] = CSI[0][0] * rc00 + CSI[0][1] * rc10 + CSI[0][2] * rc20;
+	TR[0][1] = CSI[0][0] * rc01 + CSI[0][1] * rc11 + CSI[0][2] * rc21;
+	TR[0][2] = CSI[0][0] * rc02 + CSI[0][1] * rc12 + CSI[0][2] * rc22;
+	//
+	TR[1][0] = CSI[1][0] * rc00 + CSI[1][1] * rc10 + CSI[1][2] * rc20;
+	TR[1][1] = CSI[1][0] * rc01 + CSI[1][1] * rc11 + CSI[1][2] * rc21;
+	TR[1][2] = CSI[1][0] * rc02 + CSI[1][1] * rc12 + CSI[1][2] * rc22;
+	//
+	TR[2][0] = CSI[2][0] * rc00 + CSI[2][1] * rc10 + CSI[2][2] * rc20;
+	TR[2][1] = CSI[2][0] * rc01 + CSI[2][1] * rc11 + CSI[2][2] * rc21;
+	TR[2][2] = CSI[2][0] * rc02 + CSI[2][1] * rc12 + CSI[2][2] * rc22;
+	// get CSI * RM^t * CS
+	double rtc00 = RM[0][0] * CS[0][0] - RM[0][1] * CS[1][0] + RM[0][2] * CS[2][0];
+	double rtc01 = RM[0][0] * CS[0][1] - RM[0][1] * CS[1][1] + RM[0][2] * CS[2][1];
+	double rtc02 = RM[0][0] * CS[0][2] - RM[0][1] * CS[1][2] + RM[0][2] * CS[2][2];
+	//
+	double rtc10 = -RM[1][0] * CS[0][0] + RM[1][1] * CS[1][0] + RM[1][2] * CS[2][0];
+	double rtc11 = -RM[1][0] * CS[0][1] + RM[1][1] * CS[1][1] + RM[1][2] * CS[2][1];
+	double rtc12 = -RM[1][0] * CS[0][2] + RM[1][1] * CS[1][2] + RM[1][2] * CS[2][2];
+	//
+	double rtc20 = RM[2][0] * CS[0][0] + RM[2][1] * CS[1][0] + RM[2][2] * CS[2][0];
+	double rtc21 = RM[2][0] * CS[0][1] + RM[2][1] * CS[1][1] + RM[2][2] * CS[2][1];
+	double rtc22 = RM[2][0] * CS[0][2] + RM[2][1] * CS[1][2] + RM[2][2] * CS[2][2];
+	//
+	TRI[0][0] = CSI[0][0] * rtc00 + CSI[0][1] * rtc10 + CSI[0][2] * rtc20;
+	TRI[0][1] = CSI[0][0] * rtc01 + CSI[0][1] * rtc11 + CSI[0][2] * rtc21;
+	TRI[0][2] = CSI[0][0] * rtc02 + CSI[0][1] * rtc12 + CSI[0][2] * rtc22;
+	//
+	TRI[1][0] = CSI[1][0] * rtc00 + CSI[1][1] * rtc10 + CSI[1][2] * rtc20;
+	TRI[1][1] = CSI[1][0] * rtc01 + CSI[1][1] * rtc11 + CSI[1][2] * rtc21;
+	TRI[1][2] = CSI[1][0] * rtc02 + CSI[1][1] * rtc12 + CSI[1][2] * rtc22;
+	//
+	TRI[2][0] = CSI[2][0] * rtc00 + CSI[2][1] * rtc10 + CSI[2][2] * rtc20;
+	TRI[2][1] = CSI[2][0] * rtc01 + CSI[2][1] * rtc11 + CSI[2][2] * rtc21;
+	TRI[2][2] = CSI[2][0] * rtc02 + CSI[2][1] * rtc12 + CSI[2][2] * rtc22;
+}
+
+void RotationalSpring::getd1(double &dx, double &dy, double &dz)
+{
+	double lnx = n2->position.x - center->position.x;
+	double lny = n2->position.y - center->position.y;
+	double lnz = n2->position.z - center->position.z;
+	double lnd = sqrt(lnx * lnx + lny * lny + lnz * lnz);
+	//
+	double lnm1x = center->position.x - n1->position.x;
+	double lnm1y = center->position.y - n1->position.y;
+	double lnm1z = center->position.z - n1->position.z;
+	double lnm1d = sqrt(lnm1x * lnm1x + lnm1y * lnm1y + lnm1z * lnm1z);
+	//
+	double rlnm1x = TR[0][0] * lnm1x + TR[0][1] * lnm1y + TR[0][2] * lnm1z;
+	double rlnm1y = TR[1][0] * lnm1x + TR[1][1] * lnm1y + TR[1][2] * lnm1z;
+	double rlnm1z = TR[2][0] * lnm1x + TR[2][1] * lnm1y + TR[2][2] * lnm1z; // counter-clockwise
+																			//
+	dx = -1. / lnd / lnm1d * ((lnx*rlnm1x + lny*rlnm1y + lnz*rlnm1z) / lnd / lnd * lnx - rlnm1x);
+	dy = -1. / lnd / lnm1d * ((lnx*rlnm1x + lny*rlnm1y + lnz*rlnm1z) / lnd / lnd * lny - rlnm1y);
+	dz = -1. / lnd / lnm1d * ((lnx*rlnm1x + lny*rlnm1y + lnz*rlnm1z) / lnd / lnd * lnz - rlnm1z);
+}
+
+void RotationalSpring::getd2(double &dx, double &dy, double &dz)
+{
+	double lnx = n2->position.x - center->position.x;
+	double lny = n2->position.y - center->position.y;
+	double lnz = n2->position.z - center->position.z;
+	double lnd = sqrt(lnx * lnx + lny * lny + lnz * lnz);
+	//
+	double lnm1x = center->position.x - n1->position.x;
+	double lnm1y = center->position.y - n1->position.y;
+	double lnm1z = center->position.z - n1->position.z;
+	double lnm1d = sqrt(lnm1x * lnm1x + lnm1y * lnm1y + lnm1z * lnm1z);
+	//
+	double rlnx = TRI[0][0] * lnx + TRI[0][1] * lny + TRI[0][2] * lnz;
+	double rlny = TRI[1][0] * lnx + TRI[1][1] * lny + TRI[1][2] * lnz;
+	double rlnz = TRI[2][0] * lnx + TRI[2][1] * lny + TRI[2][2] * lnz; // clockwise
+	double rlnm1x = TR[0][0] * lnm1x + TR[0][1] * lnm1y + TR[0][2] * lnm1z;
+	double rlnm1y = TR[1][0] * lnm1x + TR[1][1] * lnm1y + TR[1][2] * lnm1z;
+	double rlnm1z = TR[2][0] * lnm1x + TR[2][1] * lnm1y + TR[2][2] * lnm1z; // counter-clockwise
+	//
+	dx = (rlnx - rlnm1x) / lnd / lnm1d + (lnx*rlnm1x + lny*rlnm1y + lnz*rlnm1z) / lnd / lnm1d * (lnx / lnd / lnd - lnm1x / lnm1d / lnm1d);
+	dy = (rlny - rlnm1y) / lnd / lnm1d + (lnx*rlnm1x + lny*rlnm1y + lnz*rlnm1z) / lnd / lnm1d * (lny / lnd / lnd - lnm1y / lnm1d / lnm1d);
+	dz = (rlnz - rlnm1z) / lnd / lnm1d + (lnx*rlnm1x + lny*rlnm1y + lnz*rlnm1z) / lnd / lnm1d * (lnz / lnd / lnd - lnm1z / lnm1d / lnm1d);
+}
+
+void RotationalSpring::getd3(double &dx, double &dy, double &dz)
+{
+	double lnx = n2->position.x - center->position.x;
+	double lny = n2->position.y - center->position.y;
+	double lnz = n2->position.z - center->position.z;
+	double lnd = sqrt(lnx * lnx + lny * lny + lnz * lnz);
+	//
+	double lnm1x = center->position.x - n1->position.x;
+	double lnm1y = center->position.y - n1->position.y;
+	double lnm1z = center->position.z - n1->position.z;
+	double lnm1d = sqrt(lnm1x * lnm1x + lnm1y * lnm1y + lnm1z * lnm1z);
+	//
+	double rlnx = TRI[0][0] * lnx + TRI[0][1] * lny + TRI[0][2] * lnz;
+	double rlny = TRI[1][0] * lnx + TRI[1][1] * lny + TRI[1][2] * lnz;
+	double rlnz = TRI[2][0] * lnx + TRI[2][1] * lny + TRI[2][2] * lnz; // clockwise
+	double rlnm1x = TR[0][0] * lnm1x + TR[0][1] * lnm1y + TR[0][2] * lnm1z;
+	double rlnm1y = TR[1][0] * lnm1x + TR[1][1] * lnm1y + TR[1][2] * lnm1z;
+	double rlnm1z = TR[2][0] * lnm1x + TR[2][1] * lnm1y + TR[2][2] * lnm1z; // counter-clockwise
+	//
+	dx = 1. / lnd / lnm1d * ((lnx*rlnm1x + lny*rlnm1y + lnz*rlnm1z) / lnm1d / lnm1d * lnm1x - rlnx);
+	dy = 1. / lnd / lnm1d * ((lnx*rlnm1x + lny*rlnm1y + lnz*rlnm1z) / lnm1d / lnm1d * lnm1y - rlny);
+	dz = 1. / lnd / lnm1d * ((lnx*rlnm1x + lny*rlnm1y + lnz*rlnm1z) / lnm1d / lnm1d * lnm1z - rlnz);
 }
 
 void RotationalSpring::reset()
@@ -398,9 +604,9 @@ void RotationalSpring::reset()
 	// update the curvature
 	double n1cd = (center->position - n1->position).Norm();
 	double cn2d = (n2->position - center->position).Norm();
-	double n1pn2 = (center->position.x - n1->position.x) * (n2->position.x - center->position.x) +
-		(center->position.y - n1->position.y) * (n2->position.y - center->position.y) +
-		(center->position.z - n1->position.z) * (n2->position.z - center->position.z);
+	double n1pn2 = n1->position.x * n2->position.x +
+		n1->position.y * n2->position.y +
+		n1->position.z * n2->position.z;
 	curv0 = sqrt(2 * (1. - n1pn2 / n1cd / cn2d));
 
 	double aR = (n1->mRadius + n2->mRadius + center->mRadius) / 3;

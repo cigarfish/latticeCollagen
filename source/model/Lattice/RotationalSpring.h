@@ -80,10 +80,16 @@ private:
 
 	// added by Jieling
 	double curv0; // the default curvature
+	double theta0;
 	double fibreLength;
 	Vector3f n10;
 	Vector3f n20;
 	Vector3f center0; // the original position of the nodes, to calculate the change of the angle
+	double RM[3][3]; // rotation matrix, along z-axis of the coordination system
+	double CS[3][3]; // coordination system matrix
+	double CSI[3][3]; // inverse of CS
+	double TR[3][3]; // CS * RM * CSI, counter-clockwise
+	double TRI[3][3]; // CS * RM^t * CSI, clockwise
 
 public:
     virtual void print(std::ostream& stream) const override;
@@ -112,6 +118,10 @@ public:
 	double getCurvature();
 	double getBendingForce();
 	double getEI();
+	void CSInverse();
+	void getd1(double &dx, double &dy, double &dz);
+	void getd2(double &dx, double &dy, double &dz);
+	void getd3(double &dx, double &dy, double &dz); // the derivative of cos(theta)
 	void setPhi0(double p) { phi0 = p; }
 	void reset();
 	void setFibreLength(double l) { fibreLength = l; reset(); }
